@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import todoRoutes from './routes/todo.js';
 import authRoutes from './routes/auth.js';
 import checkAuth from './util/checkAuth.js';
@@ -13,9 +14,9 @@ dotenv.config();
 app.use(cors());
 app.use(morgan('tiny'));
 app.use(express.json());
+app.use(cookieParser());
 
 /* routes */
-app.get(('/hello'), (req, res) => res.send('hello'))
 app.use('/', authRoutes);
 app.use('/', checkAuth, todoRoutes);
 

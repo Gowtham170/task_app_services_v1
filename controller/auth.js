@@ -77,8 +77,18 @@ export const logout = (req, res) => {
     return res.status(200).json({ message: 'logout successful'});
 }
 
-export const isLoggedIn = () => {
-
+export const isLoggedIn = (req, res) => {
+    const token = req.cookies.auth_token;
+    console.log(token);
+    if(!token) {
+        return res.json(false);
+    }
+    return jwt.verify(token, process.env.JWT_SECRET_KEY, (err) => {
+        if(err) {
+            return res.json(false);
+        } 
+        return res.json(true);
+    });
 }
 
 // export { register, login, logout, isLoggedIn };
