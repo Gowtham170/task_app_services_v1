@@ -15,6 +15,8 @@ export const register = async (req, res, next) => {
         const lastname = req.body.lastname;
         const email = req.body.email;
         const password = req.body.password;
+        const picturePath = req.protocol + '://' + req.get('host') + '/' + req.file.filename;
+        // const picturePath = req.protocol + '://' + req.get('host') + '/uploads/' + req.file.filename;
 
         // checking for the existence of the user
         const emailExist = await userModel.findOne({ email });
@@ -30,7 +32,8 @@ export const register = async (req, res, next) => {
             firstname, 
             lastname, 
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            picturePath
         });
         await newUser.save();
         return res.status(201).json('New user created!');
@@ -63,7 +66,7 @@ export const login = async (req, res, next) => {
             email: user.email
         }
         const token = jwt.sign(payload, JWT_SECRET_KEY, {expiresIn: '1d'});
-        res.cookie('auth_token', token, {
+        return res.cookie('auth_token', token, {
             httpOnly: true
         }).status(200).json({message: 'login successful'});
 
@@ -78,8 +81,8 @@ export const logout = (req, res) => {
 }
 
 export const isLoggedIn = (req, res) => {
-    const token = req.cookies.auth_token;
-    console.log(token);
+    const token = req.cookies.auth_token;   
+
     if(!token) {
         return res.json(false);
     }
@@ -90,5 +93,3 @@ export const isLoggedIn = (req, res) => {
         return res.json(true);
     });
 }
-
-// export { register, login, logout, isLoggedIn };

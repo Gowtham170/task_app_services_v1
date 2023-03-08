@@ -10,10 +10,9 @@ const getTodos = async(req, res) => {
 
 // get specific todo
 const getTodo = async(req, res) => {
-    const username = req.params['username'];
-    const _id = req.params['id'];
+    const id = req.params['id'];
     
-    await Todo.findById(_id)
+    await Todo.findById(id)
             .then((todo) => res.json(todo))
             .catch((err) => console.log(err));
 }

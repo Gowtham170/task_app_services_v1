@@ -6,18 +6,21 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import todoRoutes from './routes/todo.js';
 import authRoutes from './routes/auth.js';
+import userRoutes from './routes/user.js';
 import checkAuth from './util/checkAuth.js';
 
 /* middlewares configuration */
 const app = express();
 dotenv.config();
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(morgan('tiny'));
 app.use(express.json());
-app.use(cookieParser());
+app.use('/', express.static('uploads'));
 
 /* routes */
 app.use('/', authRoutes);
+app.use('/', checkAuth, userRoutes);
 app.use('/', checkAuth, todoRoutes);
 
 /* server and db configuration  */
