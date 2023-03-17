@@ -7,7 +7,7 @@ const todoSchema = new mongoose.Schema({
     category: {type: String, required: true},
     priority: {type: Boolean, default: false},
     status: {type: Boolean, default: false},
-    username: {type: Schema.Types.ObjectId, ref: 'User', required: true}
+    user: {type: Schema.Types.ObjectId, ref: 'User', required: true}
 }, {timestamps: true});
 
 const todoModel = mongoose.model('Task', todoSchema);
