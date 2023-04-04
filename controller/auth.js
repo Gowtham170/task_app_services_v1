@@ -37,8 +37,8 @@ export const register = async (req, res, next) => {
         });
         await newUser.save();
         return res.status(201).json('New user created!');
-    } catch (error) {
-        return next(error);
+    } catch (err) {
+        return res.status(400).json(`Error: ${err}`);
     }
 }
 
@@ -70,8 +70,8 @@ export const login = async (req, res, next) => {
             httpOnly: true
         }).status(200).json({message: 'login successful'});
 
-    } catch (error) {
-        return next(error);
+    } catch (err) {
+        return res.status(400).json(`Error: ${err}`);
     }
 }
 
